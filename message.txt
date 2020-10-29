@@ -1,0 +1,868 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jun  9 15:38:50 2020
+
+@author: geceg
+"""
+
+import random
+import tkinter as tk
+import numpy
+import decimal
+from math import factorial
+
+
+root = tk.Tk()
+
+
+temelkavramlar=0
+ardasiksayilar=0
+kumelerr=0
+problemlerr=0
+
+
+dogrusayisi=0
+yanlissayisi=0
+sorusayisi=1
+
+# Soruları Getiren fonksiyon
+#Berkay
+def soru_getir():
+    global temelkavramlar
+    global ardasiksayilar
+    global kumelerr
+    global problemlerr
+  
+    
+    
+    if(temelkavramlar<5):
+    
+     temelkavramlar+=1
+     temel_kavramlar()
+     
+    if(ardasiksayilar<5):
+    
+     ardasiksayilar+=1
+     ardisik_sayi()
+     
+    if(kumelerr<5):
+    
+     kumelerr+=1
+     kumeler()  
+    
+    if(problemlerr<35):
+    
+     problemlerr+=1
+     problemler()
+    
+# Soruları Doğru'mu yanlış'mı diye kontrol eden fonksiyon
+#Berkay
+def kontrol(sayi,sayi2):
+    
+    global dogrusayisi
+    global yanlissayisi
+    global sorusayisi
+    if(sayi==sayi2):
+         dogrusayisi+=1
+         
+    else:
+         yanlissayisi+=1
+    
+
+
+    if(sorusayisi<50):
+       sorusayisi+=1
+       soru_getir()
+       
+    else:
+        sonuc_ekrani()
+       
+
+# Her yeni soruda ekranı yenileyiyen yani yok eden ve tekrar oluşturan fonksiyon
+#Eren
+def refresh():
+    
+    root.destroy()
+    
+    root.__init__()
+    
+
+# Tüm sorular bittikten sonra doğru , yanlış ve puanı gösteren fonksiyon   
+#Eren
+def sonuc_ekrani():
+    
+    refresh()
+    
+    net=dogrusayisi*10;
+    tk.Label(root, 
+            text="Puanınız : "+str(net),
+            justify = tk.LEFT,
+            padx = 20).pack()
+    tk.Label(root, 
+            text="Doğru Sayısı : "+str(dogrusayisi),
+            justify = tk.LEFT,
+            padx = 20).pack()
+    tk.Label(root, 
+            text="Yanlış Sayısı : "+str(yanlissayisi),
+            justify = tk.LEFT,
+            padx = 20).pack()
+    
+    root.mainloop()
+    
+
+# Temel Kavramlar
+#Berkay    
+def temel_kavramlar():
+    
+    
+    
+    
+    refresh()
+    v = tk.IntVar()
+    
+    islemsayisi=random.randint(1,2)
+    yazi=""
+    toplam=0
+    sayi1=0
+    sayi2=0 
+    
+    isaretyazi=""      
+    sayi1=random.randint(1,5)  
+    sayi2=random.randint(1,5)  
+    
+          
+       
+        
+        
+    isaret=random.randint(0,3)    
+    if(isaret==0):
+      toplam=sayi1+sayi2
+      yazi=str(sayi1)+"+"+str(sayi2)
+    if(isaret==1):
+      toplam=sayi1-sayi2 
+      yazi=str(sayi1)+"-"+str(sayi2)
+      
+    if(isaret==2):
+      toplam=sayi1*sayi2
+      yazi=str(sayi1)+"*"+str(sayi2)
+    if(isaret==3):
+      toplam=sayi1/sayi2 
+      yazi=str(sayi1)+"/"+str(sayi2)  
+    
+        
+    
+            
+    
+        
+      
+        
+        
+
+  
+    text="İşleminin sonucu kaçtır?"
+    
+    tk.Label(root, 
+            text=str(sorusayisi)+") "+yazi+"=  "+text+str(toplam),
+            justify = tk.LEFT,
+            padx = 20).pack()
+    
+    
+    
+    dogru=random.randint(0,4);
+    
+    
+    
+    yazi="doğru Şık"
+    
+    for i in range(5):
+        
+        if(dogru==i):
+         
+          tk.Radiobutton(root, 
+                  text=toplam,
+                  padx = 20, 
+                  variable=v, 
+                  value=i).pack(anchor=tk.W)
+        else:
+            tk.Radiobutton(root, 
+                  text=random.randint(-50,100),
+                  padx = 20, 
+                  variable=v, 
+                  value=i).pack(anchor=tk.W)
+    
+    
+    
+        
+
+    
+
+    
+    
+    button = tk.Button(root, 
+                       text="Yeni Soru", 
+                       fg="red",
+                       command=lambda: kontrol( dogru+1,v.get()+1 ) )
+    button.pack(side=tk.RIGHT)
+    
+    root.mainloop()
+
+# Ardaşık Sayılar 
+#Eren    
+def ardisik_sayi():
+    refresh()
+    v = tk.IntVar()
+    soru="   İşleminin Sonucu Kaçtır ?"
+    bas=random.randint(2,10)
+    son=random.randint(bas,100)
+    art=random.randint(1,4)
+    
+    dizi =  numpy.arange(bas,son,art)
+    
+    
+   
+    yazi=str(dizi[0])+"+"+str(dizi[1])+"+"+str(dizi[2])+"+"+"..."+str(dizi[-2])+"+"+str(dizi[-1])+soru
+    tk.Label(root, 
+            text=str(sorusayisi)+") "+yazi,
+            justify = tk.LEFT,
+            padx = 20).pack()
+    
+   
+    
+    
+    dogru=random.randint(0,4);
+    
+    
+    
+    yazi="doğru Şık"
+    
+    for i in range(5):
+        
+        if(dogru==i):
+         
+          tk.Radiobutton(root, 
+                  text=str(dizi.sum()),
+                  padx = 20, 
+                  variable=v, 
+                  value=i).pack(anchor=tk.W)
+        else:
+            tk.Radiobutton(root, 
+                  text=random.randint(0,500),
+                  padx = 20, 
+                  variable=v, 
+                  value=i).pack(anchor=tk.W)
+    
+    
+    
+        
+
+    
+
+    
+    
+    button = tk.Button(root, 
+                       text="Yeni Soru", 
+                       fg="red",
+                       command=lambda: kontrol( dogru+1,v.get()+1 ) )
+    button.pack(side=tk.RIGHT)
+    
+    root.mainloop()
+
+# Kumeler
+#Berkay    
+def kumeler():
+    refresh()
+    v = tk.IntVar()
+   
+    
+    
+    
+    text=""
+    
+   
+    
+    
+    dogru=random.randint(0,4)
+    
+    soru=""
+    bas=random.randint(1,3)
+    son=random.randint(40,50)
+    art=random.randint(2,6)
+    
+    dizi =numpy.random.randint(10,25,size=(random.randint(5,10)))
+    hangisoru=random.randint(1,5)
+    toplam=0
+    soru2=""
+    if(hangisoru==1):
+       text=" Elemanlarının Toplamı kaçtır ?"
+       toplam=dizi.sum()
+    if(hangisoru==2):
+       text=" Kümesinin en büyük ile en küçük elamanının toplamı kaçtır ?"
+       toplam=dizi.max()+dizi.min()
+    if(hangisoru==3):
+       text=" Kümesininen büyük sayının karesi kaçtır ?"
+       toplam=dizi.max()**2
+    if(hangisoru==4):
+       text=" Kümesinin öz alt küme sayısı kaçtır ?"
+       toplam=(2*dizi.size)+1
+    if(hangisoru==5):
+       text=" A kümesi elamanları ile B kümesi elemanlarının  çarpımı C kümesini oluşturmatadır. C kümesnin elamanları nelerdir ?"
+       dizi =numpy.random.randint(10,25,size=(5))
+       dizi2 =numpy.random.randint(10,25,size=(5))
+       soru2="B = {"+str(dizi2)+"} "
+       toplam= dizi*dizi2
+       
+    soru="A = {"+str(dizi)+"} "
+    
+    tk.Label(root, 
+            text=str(sorusayisi)+") "+soru+" "+soru2+text,
+            justify = tk.LEFT,
+            padx = 20).pack()
+     
+    yazi="doğru Şık"
+    
+    for i in range(5):
+        
+        if(dogru==i):
+         
+          tk.Radiobutton(root, 
+                  text=toplam,
+                  padx = 20, 
+                  variable=v, 
+                  value=i).pack(anchor=tk.W)
+        else:
+            if(hangisoru==5):
+                tk.Radiobutton(root, 
+                      text=str(numpy.random.randint(10,25,size=(random.randint(5,10)))),
+                      padx = 20, 
+                      variable=v, 
+                      value=i).pack(anchor=tk.W)
+            else:
+                 tk.Radiobutton(root, 
+                      text=str(random.randint(0,500)),
+                      padx = 20, 
+                      variable=v, 
+                      value=i).pack(anchor=tk.W)
+    
+    
+        
+
+    
+
+    
+    
+    button = tk.Button(root, 
+                       text="Yeni Soru", 
+                       fg="red",
+                       command=lambda: kontrol( dogru+1,v.get()+1 ) )
+    button.pack(side=tk.RIGHT)
+    
+    root.mainloop()
+    
+#Problemler (a-b,yaş,torba,fonksiyon...)
+#Berkay ve Eren   (17,17)  
+def problemler():
+    refresh()
+    v = tk.IntVar()
+    
+     
+    soru=""
+    toplam=0
+    hangisoru=random.randint(1,33)
+    text=""
+    toplamyazi=""
+    
+    if(hangisoru==1):
+        yol1=random.randint(50,1000)
+        yol2=random.randint(50,1000)
+        soru="Market alışverişini yapmak için evinden çıkan Berkay markete "+str(yol1)+"m yürüyor dönüşte ise marketten "+str(yol2)+"m uzaklıktaki parkta vakit geçiriyor ve devamında ise aynı yoldan  eve dönüyor Berkay kaç kaç m yol kat etmiştir ?"
+        toplam=(yol1+yol2)*2
+        toplamyazi=str(toplam)+"m"
+       
+    if(hangisoru==2):
+        tl=random.randint(20,40)
+        faiz=random.randint(5,8)
+        ay=random.randint(2,5)
+        ay2=random.randint(2,5)
+       
+        soru="Günlük "+str(tl)+"tl kazanan eren "+str(ay)+" aylık parasını aylık %"+str(faiz)+" faizden bankaya yatırmaktadır. Erenin "+str(ay2)+" ay sonraki  parası ne kadardır  ?"
+        toplam=tl*30*ay
+        text=random.randint(1000,6000)
+        for i in range(ay2):
+            toplam+=(toplam*faiz)/100
+        
+        
+        toplam=round(toplam)
+        toplamyazi=str(toplam)+"tl"
+    
+    if(hangisoru==3):
+        haftaici=random.randint(3000,5000)
+        haftasonu=random.randint(700,1000)
+        soru="Bağcılar-Kabataş hattında olan tramvaya  haftaiçi ortalama "+str(haftaici)+" kişi binmektedir. Hafta sonu ise "+str(haftasonu)+" kişi binmektedir. Pazartesi günü ile Pazar günü binen kişi sayılarının toplamı kaçtır ?"
+        toplam=(haftaici/5)+(haftasonu/2)
+        toplam=round(toplam)
+        toplamyazi=str(toplam)
+    if(hangisoru==4):
+        tavuk=random.randint(1,20)
+        yumurta=random.randint(1,5)
+        yumurtafiyat=random.randint(1,2)
+        inek=random.randint(1,15)
+        sut=random.randint(3,5)
+        sutfiyat=random.randint(2,5)
+        soru="Bir çiftlikte bulunan "+str(tavuk)+" tavuk un her biri günlük "+str(yumurta)+" yumurta yapmaktadır. Bu yumurtaların tanesinin fiyatı "+str(yumurtafiyat)+"tl dir. Aynı çiftlikte bulunan "+str(inek)+" inek her biri günlük "+str(sut)+" litre süt vermektedir. Litre sütün fiyatı "+str(sutfiyat)+"tl dir.  Bir aylık ürün satışından çiftliğe kalan para ne kadardır ?"
+        toplam=(((tavuk*yumurta)*yumurtafiyat)+ ((inek*sut)*sutfiyat))*30
+        toplamyazi=str(toplam)+"tl"
+    if(hangisoru==5):
+        yol=random.randint(1,5)
+        okul=random.randint(100,1000)
+        soru="Bisikleti ile dolaşan ece her pedal çevirisinde  "+str(yol)+"m yol gider. Ece okuluna gitmesi için "+str(okul)+"m yol gitmesi gerekmektedir ece kaç kere pedal çevirir ?"
+        toplam=okul/yol
+        toplam=round(toplam)
+        toplamyazi=str(toplam)+"m"
+    if(hangisoru==6):
+        kolifiyat=random.randint(10,15)
+        fiyat=random.randint(2,4)
+        soru="Bir kıraathanede  çalışan eren kolisini (10 adet)  "+str(kolifiyat)+"tl ye aldığı suyu tanesini "+str(fiyat)+"tl fiyata satmaktadır. Erenin tüm suları sattıktan sonra net karı nedir ?"
+        toplam=(fiyat*10)-(kolifiyat)
+        toplamyazi=str(toplam)+"tl"   
+    if(hangisoru==7):
+        gun=random.randint(10,20)
+        sorus=random.randint(500,800)
+        soru="Mehmet normalde  "+str(gun)+" günde  "+str(sorus)+" soru çözebiliyor. Mehmet yarı hızla 150 soruyu kaç günde çözer ?"
+        toplam=(150/(sorus/gun))*2
+        toplam=round(toplam)
+        toplamyazi=str(toplam)+"gün" 
+    if(hangisoru==8):
+        para=random.randint(100,200)
+        kirazkilotl=random.randint(2,5)
+        kirazkilo=random.randint(1,5)
+        erikkilotl=random.randint(2,5)
+        erikkilo=random.randint(1,5)
+        soru="Pazar alışverişine çıkan simge cebindeki "+str(para)+"tl para ile  kilosu "+str(kirazkilotl)+"tl olan kirazdan "+str(kirazkilo)+" kilo almıştır ve ayrıca kilo fiyatı "+str(erikkilotl)+" olan erikten "+str(erikkilo)+" kilo almıştır. Simgenin cebinde kaç para kalmıştır ?"
+        toplam=para-((kirazkilo*kirazkilotl)+(erikkilo*erikkilotl))
+        toplam=round(toplam)
+        toplamyazi=str(toplam)+"tl"  
+    if(hangisoru==9):
+        yol=random.randint(40,100)
+        yakit=random.randint(10,100)/100.00
+        
+        soru="Ahmet ile Mahmut İstanbul’dan Sivas’a yola çıkmaktadırlar. İstanbul ile Sivas arası "+str(yol)+" kilometredir. Kullandıkları aracın kilometre başına yaktığı yakıt "+str(yakit)+"tl dir.Ahmet ile mahmut Kaç tl ye sivasa gitmiştirler ?"
+        toplam=yol*yakit
+        toplamyazi=str(toplam)+"tl"     
+        
+    if(hangisoru==10):
+        yol=random.randrange(100,1000,100)
+        hiz=random.randrange(50,100,10)
+        saat=yol/hiz
+        saat*=60
+        saat=round(saat)
+        soru=""+str(yol)+"km yolu "+str(hiz)+"km/s hızla giden bir araç "+str(saat)+" dakika da varmaktadır hızını iki kat arttıran araç kaç saate hedefine varır ?"
+        toplam=saat/2
+        toplam*=60
+        toplam=round(toplam)
+        toplamyazi=str(toplam)+" dk"  
+        
+    if(hangisoru==11):
+        pay=random.randrange(2,4,2)
+        payda=random.randrange(10,30,2)
+        soru="Bir top kumaşın "+str(pay)+"/"+str(payda)+"’i satılıyor. Buna göre kalan kumaş satılan kumaşın kaç katıdır ?"
+        toplam=payda-pay
+        toplam=toplam/pay
+        toplam=round(toplam)
+        
+        toplamyazi=str(toplam)+""    
+        
+    if(hangisoru==12):
+        aile=random.randint(1,5)
+        ortalama=random.randint(30,60)
+        yil=random.randint(1,5)
+        soru=""+str(aile)+" kişilik bir ailenin yaş ortalaması "+str(ortalama)+" dur "+str(yil)+" yıl sonra aile sayısında değişiklik olmadığına göre  yaş ortalaması kaçtır ?"
+      
+        toplam=ortalama+yil
+        
+        toplamyazi=str(toplam)+""    
+        
+        
+    if(hangisoru==13):
+        fazla=random.randint(10,30)
+        kati=random.randint(1,5)
+        eksigi=random.randint(20,40)
+        sayi=random.randint(100,150)
+        soru="Bir sayının "+str(fazla)+" fazlasının "+str(kati)+" katının "+str(eksigi)+" eksiği "+str(sayi)+" dur.Sayı kaçtır. ?"
+      
+        toplam=((sayi+eksigi)/kati)-fazla
+        
+        toplamyazi=str(toplam)+""  
+        
+    if(hangisoru==14):
+        pay=random.randrange(2,10,2)
+        payda=random.randrange(10,30,2)
+        sayi=random.randrange(20,40,2)
+        pay2=random.randrange(2,10,2)
+        payda2=random.randrange(10,30,2)
+        soru="bir sayının "+str(pay)+"/"+str(payda)+"’i "+str(sayi)+" ise bu sayının "+str(pay2)+"/"+str(payda2)+"’i kaçtır ?"
+        toplam=(sayi/pay)*payda
+      
+        toplam=(toplam/payda2)*pay2
+        toplam=round(toplam)
+        toplam/=1.00
+        
+        toplamyazi=str(toplam)+""  
+        
+    if(hangisoru==15):
+        gunsoru=random.randrange(100,600,100)
+        haftasoru=gunsoru*7
+        haftagereken=haftasoru*2
+        soru="Günlük "+str(gunsoru)+" soru çözen Mehmet haftada "+str(haftasoru)+" soru çözmektedir. Haftalık "+str(haftagereken)+" soru çözmesi gereken Mehmet günlük kaç soru çözmesi gerekir ?"
+        toplam=haftagereken/7
+        toplam=round(toplam)
+        
+        toplamyazi=str(toplam)+" soru" 
+        
+    if(hangisoru==16):
+        ulasim=random.randint(50,100)
+        gomlek=random.randint(100,600)
+        pantalon=random.randint(100,600)
+        tshirt=random.randint(100,600)
+        bluz=random.randint(100,600)
+        rt=random.randint(1,5)
+        rp=random.randint(1,5)
+        rb=random.randint(1,5)
+      
+        soru="Elbise alışverişini yapmak için alışverişe giden Ayşe ulaşım için  "+str(ulasim)+"tl ödemiştir. Mağazada gömlek  "+str(gomlek)+"tl, pantalon "+str(pantalon)+"tl, t-shirt "+str(tshirt)+"tl, bluz "+str(bluz)+"tl’dir. Ayşe "+str(rt)+" t-shirt "+str(rp)+" pantolon ve "+str(rb)+" bluz almıştır Ayşe kaç para harcamıştır ?"
+        toplam=(rt*tshirt)+(rp*pantalon)+(rb*bluz)+ulasim
+        
+        toplamyazi=str(toplam)+"tl" 
+        
+    if(hangisoru==17):
+        saat=random.randint(6,16)
+        tl=random.randint(60,150)
+        saatkazanc=random.randint(100,600)
+       
+      
+        soru="Bir kıraathane günlük "+str(saat)+" saat çalışmaktadır ve bu saatte "+str(tl)+"tl kazanmaktadır. Kıraathane "+str(saatkazanc)+" saatte ne kadar kazanır ?"
+        toplam=(tl/saat)*saatkazanc
+        
+        toplamyazi=str(toplam)+"tl"
+        
+    if(hangisoru==18):
+        saat=random.randint(6,16)
+        musluk=random.randint(2,6)
+        
+        soru="Bir havuz bir muslukla "+str(saat)+" saatte dolmaktadır. Toplam musluk sayısı"+str(musluk)+" olursa kaç saatte dolar ?"
+        
+        toplam=saat/musluk
+        
+        toplamyazi=str(toplam)+" saat" 
+        
+    if(hangisoru==19):
+        saat=random.randrange(6,16,2)
+        kat=random.randrange(2,6,2)
+        
+        soru="Bir işçi bir daireyi "+str(saat)+" saatte boyamaktadır. İşçi sayısı "+str(kat)+" katına çıkarılırsa daire kaç saatte boyanır ?"
+        
+        toplam=saat/kat
+        
+        toplamyazi=str(toplam)+" saat"
+        
+    if(hangisoru==20):
+        kisa=random.randrange(50,250,50)
+        uzun=random.randrange(250,1000,50)
+        metre=random.randrange(5,25,5)
+        
+        soru="Bir dikdörtgen şeklindeki bahçenin etrafına ağaç dikilecektir. Bahçenin kısa kenarı "+str(kisa)+"M,  uzun kenarı "+str(uzun)+"M dir. Her "+str(metre)+"m’ de bir ağaç dikilmektedir. Bu bahçeye kaç tane ağaç dikilmiştir ?"
+        
+        toplam=((kisa+uzun)*2)/metre
+        
+        toplamyazi=str(toplam)+" tane"
+        
+    if(hangisoru==21):
+        sayi=random.randint(1,19)
+        sayi2=sayi*sayi
+       
+        
+        soru=""+str(sayi2)+" sayının karekökü kaçtır ?"
+        
+        toplam=sayi2/sayi
+        
+        toplamyazi=str(toplam)+" " 
+        
+    if(hangisoru==22):
+        sayi=random.randint(1,19)
+        sayik=sayi*sayi
+        sayi2=random.randint(1,19)
+        sayik2=sayi2*sayi2
+       
+        
+        soru=""+str(sayik)+" ile "+str(sayik2)+" sayısının karekökünün çarpımı kaçtır ?"
+        
+        toplam=(sayik/sayi)*(sayik2/sayi2)
+        toplam=round(toplam)
+        toplamyazi=str(toplam)+" " 
+        
+    if(hangisoru==23):
+        dizi=numpy.arange(0,10,1)
+        
+        soru="A,B,C bir basamaklı doğal sayılardır. Buna göre a+b-c işleminin alabileceği en büyük değer kaçtır ?"
+        
+        a=dizi.max()
+        b=dizi.max()
+        c=dizi.min()
+        toplam=a+b-c
+        toplamyazi=str(toplam)+" "
+        
+    if(hangisoru==24):
+        x=random.randint(2,10)
+        y=random.randint(2,10)
+        z=random.randint(2,10)
+        
+        soru="("+str(x)+"^2)+("+str(y)+"^2)+("+str(z)+"^3) işleminin sonucu kaçtır ( ^ = üslü ifadeler ) ?"
+        
+        
+        toplam=(x*x)+(y*y)+(z*z*z)
+        toplamyazi=str(toplam)+" "
+        
+    if(hangisoru==25):
+        gunlukal=random.randint(50,80)
+        gunluksat=random.randint(80,120)
+        
+        soru="Günlük satın aldığı mal miktarı tutarı "+str(gunlukal)+"tl olan bir bakkal. Günü "+str(gunluksat)+"tl kazanarak kapatıyor. Bakkalın ay sonundaki net kazancı nedir ?"
+        
+        
+        toplam=(gunluksat-gunlukal)*30
+        toplamyazi=str(toplam)+"tl " 
+        
+    if(hangisoru==26):
+        watt=random.randint(20,50)
+        watt2=random.randint(20,50)
+        tl=random.randint(5,10)
+        tl2=random.randint(5,10)
+        gtv=random.randint(5,10)
+        gtk=random.randint(5,10)
+        
+        soru="Saatte  "+str(watt)+" watt harcayan bir televizyon. Saat başına "+str(tl)+"tl tutmaktadır. Saatte "+str(watt2)+" watt harcayan bir klima saat başına "+str(tl2)+" tl tutmaktadır.Günde "+str(gtv)+" saat televizyon ve "+str(gtk)+" saat klima açan birisi toplamda ne kadar elektrik faturası öder ?"
+        
+        
+        toplam=(tl*gtv)+(tl2*gtk)
+        toplamyazi=str(toplam)+"tl " 
+        
+    if(hangisoru==27):
+        kelime=random.randrange(20,50,2) 
+        sayfab=random.randrange(100,200,2)
+        sayfa=random.randint(10,20)
+        
+        
+        soru="Okumayı yeni öğrenen mahmut yeni aldığı hikaye kitabında günde "+str(kelime)+" kelime okumaktadır. Sayfa başına ise "+str(sayfab)+" kelime düşmektedir.  Mahmut "+str(sayfa)+" sayfayı kaç günde bitirir ?"
+        
+        
+        toplam=(sayfa*sayfab)/kelime
+        toplam=round(toplam)
+        toplamyazi=str(toplam)+" gün "
+        
+    if(hangisoru==28):
+        sayi=random.randint(1,5) 
+        sayi2=random.randint(1,5)
+        c=1
+        c2=1
+        soru=""+str(sayi)+"! İle "+str(sayi2)+"! Toplamları kaçtır ?"
+        
+        for i in range (sayi):
+            c*=i+1  
+        for x in range (sayi2):
+            c2*=x+1      
+        toplam=c+c2
+
+        toplamyazi=str(toplam)+"  "   
+    if(hangisoru==29):
+        
+        misket=random.randint(2,4)
+        torbamisket=random.randrange(misket,24,misket) 
+       
+        
+        soru="Bir torbada "+str(torbamisket)+" tane misket vardır. Bu torbadan "+str(misket)+" misket çekilme olayının kombinasyonu nedir ?"
+        
+        kombinasyon=int(factorial(torbamisket)/(factorial(torbamisket-misket)*factorial(misket)))
+        
+        toplam=kombinasyon
+        toplamyazi=str(toplam)+" "
+        
+    if(hangisoru==30):
+        
+        inc=random.randint(30,90)
+        
+       
+        
+        soru=" 1 inç 2.54 cm olduğuna göre "+str(inc)+" inç kaç cm’dir ?"
+        
+        
+        
+        toplam=2.54*inc
+        toplam=round(toplam)
+        toplamyazi=str(toplam)+"cm "
+        
+        
+    if(hangisoru==31):
+        
+        x=random.randint(2,4)
+        x2=random.randint(2,4)
+        f=random.randint(-5,10)
+       
+        
+        soru=" f(x) = "+str(x)+"x+ "+str(x2)+"x fonksiyonu için f("+str(f)+") sayısı kaçtır ?"
+        
+        
+        
+        
+        toplam=(x*f)+(x2*f)
+        toplamyazi="f("+str(f)+") ="+str(toplam)+" " 
+        
+        
+    if(hangisoru==32):
+        
+       
+        x2=random.randint(2,4)
+        f=random.randint(-2,4)
+        sayi=random.randint(2,6)
+        
+        soru=" f(x) = "+str(sayi)+"(x^2)"+str(x2)+"x fonksiyonu için f("+str(f)+") sayısı kaçtır ?"
+        
+        
+        
+        
+        toplam=(sayi*(f*f))*(x2*f)
+        toplamyazi="f("+str(f)+") ="+str(toplam)+" " 
+        
+    if(hangisoru==33):
+        
+       
+        kisa=random.randrange(4,8,2)
+        uzun=random.randrange(8,16,2)
+        kare=random.randrange(2,6,2)
+        
+        soru="Uzun kenarı "+str(uzun)+"cm kısa kenarı "+str(kisa)+"cm olan dikdörtgenin alanına bir kenarı "+str(kare)+" olan kare kaç tane tam kare sığar ?"
+        
+        
+        
+        
+        toplam=(kisa*uzun)/(kare*kare)
+        toplam=round(toplam)
+        toplamyazi=str(toplam)+" "    
+        
+    tk.Label(root, 
+            text=str(sorusayisi)+") "+soru,
+            justify = tk.LEFT,
+            padx = 20).pack()
+    
+   
+    
+    
+    dogru=random.randint(0,4);
+    
+    
+    
+    yazi="doğru Şık"
+    
+    
+    for i in range(5):
+        
+        if(hangisoru==1):
+            text=str(random.randint(100,2000))+"m"
+        if(hangisoru==2):
+            text=str(random.randint(100,2000))+"tl"
+        if(hangisoru==3):
+            text=str(random.randint(900,2000))
+        if(hangisoru==4):
+            text=str(random.randint(1000,10000) )+"tl"
+        if(hangisoru==5):
+            text=str(random.randint(100,500) )+"m"
+        if(hangisoru==6):
+            text=str(random.randint(5,30) )+"tl"
+        if(hangisoru==7):
+            text=str(random.randint(5,25) )+"gün"
+        if(hangisoru==8):
+            text=str(random.randint(100,190) )+"tl"
+        if(hangisoru==9):
+            text=str((random.randint(20,100)/10.00)*5 )+"tl"
+        if(hangisoru==10):
+            text=str(random.randint(1,20)*60)+" dk"   
+        if(hangisoru==11):
+            text=str(random.randint(1,100) )+""  
+        if(hangisoru==12):
+            text=str(random.randint(40,70) )+"" 
+        if(hangisoru==13):
+            text=str(random.randint(10,100)/1.00 )+""   
+        if(hangisoru==14):
+            text=str(random.randint(10,100)/1.00 )+""
+        if(hangisoru==15):
+            text=str(random.randint(200,1000) )+" soru" 
+        if(hangisoru==16):
+            text=str(random.randint(1000,5000) )+"tl"
+        if(hangisoru==17):
+            text=str(random.randint(1000,5000)/1.00 )+"tl"
+        if(hangisoru==18):
+            text=str(random.randint(1,5)/1.00 )+" saat" 
+        if(hangisoru==19):
+            text=str(random.randint(1,20) )+" saat" 
+        if(hangisoru==20):
+            text=str(random.randint(50,300) )+" tane"
+        if(hangisoru==21):
+            text=str(random.randint(2,19) )+" "
+        if(hangisoru==22):
+            text=str(random.randint(50,200) )+" "
+        if(hangisoru==23):
+            text=str(random.randint(15,25) )+" "
+        if(hangisoru==24):
+            text=str(random.randint(50,1200) )+" " 
+        if(hangisoru==25):
+            text=str(random.randint(600,2000) )+"tl "
+        if(hangisoru==26):
+            text=str(random.randint(50,200) )+"tl "
+        if(hangisoru==27):
+            text=str(random.randint(20,100) )+" gün "
+        if(hangisoru==28):
+            text=str(random.randint(1,125) )+"  "
+        if(hangisoru==29):
+            text=str(random.randint(1,120) )+"  "
+        if(hangisoru==30):
+            text=str(random.randint(60,180) )+"cm  "
+        if(hangisoru==31):
+            text="f("+str(f)+") = "+str(random.randint(5,100) )+"  "
+        if(hangisoru==32):
+            text="f("+str(f)+") = "+str(random.randint(-5,100) )+"  "
+        if(hangisoru==33):
+            text=str(random.randint(1,20) )+"  "   
+            
+        if(dogru==i):
+         
+          tk.Radiobutton(root, 
+                  text=toplamyazi,
+                  padx = 20, 
+                  variable=v, 
+                  value=i).pack(anchor=tk.W)
+        else:
+            tk.Radiobutton(root, 
+                  text=text,
+                  padx = 20, 
+                  variable=v, 
+                  value=i).pack(anchor=tk.W)
+    
+    
+    
+        
+
+    
+
+    
+    
+    button = tk.Button(root, 
+                       text="Yeni Soru", 
+                       fg="red",
+                       command=lambda: kontrol( dogru+1,v.get()+1 ) )
+    button.pack(side=tk.RIGHT)
+    
+    root.mainloop()
+   
+#Program ilk açıldığında soru gelmesi için    
+soru_getir()
+
+
+
